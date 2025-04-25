@@ -2,13 +2,15 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/danievanzyl/ya-echo-server/internal/server"
 )
+
+var version = "dev-sha"
 
 func main() {
 	ctx := context.Background()
@@ -19,6 +21,7 @@ func main() {
 	defer stop()
 
 	<-ctx.Done()
-	s.Stop(ctx)
-	fmt.Println("Received shutdown signal:", ctx.Err())
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	s.Stop(shutdownCtx)
 }
