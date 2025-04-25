@@ -10,6 +10,8 @@ import (
 	"github.com/danievanzyl/ya-echo-server/internal/server"
 )
 
+var version = "dev-sha"
+
 func main() {
 	ctx := context.Background()
 	s := server.NewServer(":8080")
